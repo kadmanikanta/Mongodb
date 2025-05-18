@@ -1,0 +1,30 @@
+//2a. Develop a MongoDB query to select certain fields and ignore some fields of the documents from any collection.
+
+
+//To create the new database as well as switch the database if not existing
+use Movies
+
+//To create the collection inside the database
+db.createCollection("MovieDetails")
+
+//To insert the multiple values or documents
+db.MovieDetails.insertMany([
+  { _id: 1, title: "Inception", director: "Christopher Nolan", genre: "Science Fiction", year: 2010, ratings: { imdb: 8.8, rottenTomatoes: 87 } },
+  { _id: 2, title: "The Matrix", director: "Wachowskis", genre: "Science Fiction", year: 1999, ratings: { imdb: 8.7, rottenTomatoes: 87 } },
+  { _id: 3, title: "The Godfather", director: "Francis Ford Coppola", genre: "Crime", year: 1972, ratings: { imdb: 9.2, rottenTomatoes: 97 } }
+]);
+
+
+
+//To retrieve specific include field values or document
+db.MovieDetails.find({}, { title: 1, director: 1 })
+
+
+//To retrieve specific exclude field values or document
+db.MovieDetails.find({}, { ratings: 0 })
+
+// Combine query filter with a projection...
+db.MovieDetails.find({ director: "Christopher Nolan" }, { title: 1, year: 1, _id: 0 })
+
+
+

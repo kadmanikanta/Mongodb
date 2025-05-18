@@ -1,0 +1,55 @@
+//To create the new database as well as switch the database if not existing
+
+use ProgrammingBooks
+
+//To create the collection inside the database
+db.createCollection("BookDetails")
+
+//To insert the single value or document
+db.BookDetails.insertOne({
+    _id: 1,
+    title: "Clean Code", 
+    author: "Robert C. Martin", 
+    category: "Software Development", 
+    year: 2008
+  })
+
+
+//To insert the multiple values or documents
+db.BookDetails.insertMany([
+    {_id: 1, title: "Clean Code", author: "Robert C. Martin", category: "Software Development", year: 2008 },
+    {_id: 2,  title: "JavaScript: The Good Parts", author: "Douglas Crockford", category: "JavaScript", year: 2008 },
+    {_id: 3,  title: "Design Patterns", author: "Erich Gamma", category: "Software Design", year: 1994 },
+    {_id: 4,  title: "Introduction to Algorithms", author: "Thomas H. Cormen", category: "Algorithms", year: 2009 },
+    {_id: 5,  title: "Python Crash Course", author: "Eric Matthes", category: "Python", year: 2015 }
+    ]);
+
+
+
+//Condition statement for where operator
+db.BookDetails.find({ year: 2008 }).pretty()
+
+
+//Condition statement for $and operator
+db.BookDetails.find({
+    $and: [
+      { category: "Software Development" },
+      { year: 2008 }
+     ] 
+     }).pretty()
+
+
+////Condition statement for $or operator
+db.BookDetails.find({
+    $or: [
+        { category: "JavaScript" },
+        { year: 2015 }
+      ]
+      }).pretty()
+
+
+
+
+
+
+

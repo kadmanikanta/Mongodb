@@ -1,0 +1,15 @@
+//2b. Develop a MongoDB query to display the first 5 documents from the results obtained in a. [use of limit and find]
+
+db.MovieDetails.insertMany([
+    {_id: 4, title: "Pulp Fiction", director: "Quentin Tarantino", genre: "Crime", year: 1994, ratings: { imdb: 8.9, rottenTomatoes: 92 } },
+    {_id: 5, title: "The Shawshank Redemption", director: "Frank Darabont", genre: "Drama", year: 1994, ratings: { imdb: 9.3, rottenTomatoes: 91 } },
+    {_id: 6, title: "The Dark Knight", director: "Christopher Nolan", genre: "Action", year: 2008, ratings: { imdb: 9.0, rottenTomatoes: 94 } },
+    {_id: 7, title: "Fight Club", director: "David Fincher", genre: "Drama", year: 1999, ratings: { imdb: 8.8, rottenTomatoes: 79 } }
+  ]);
+
+
+
+//Query with Projection and Limit command...
+
+
+db.MovieDetails.find({}, { title: 1, director: 1, year: 1, _id: 0 }).limit(5)
