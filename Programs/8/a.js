@@ -1,52 +1,54 @@
-// Switch to the restaurantDB database
-use restaurantDB
+// MongoDB Script (Run in mongosh)
+// 1. Switch to a new database
+use EcommerceDB
 
-// Insert sample documents into the restaurants collection
-db.restaurants.insertMany([
+// 2. Insert sample data into Products collection
+db.Products.insertMany([
   {
-    name: "Biryani House",
-    cuisine: "Indian",
-    location: "Downtown",
-    reviews: [
-      { user: "Aarav", rating: 5, comment: "Amazing biryani!" },
-      { user: "Bhavana", rating: 4, comment: "Great place!" }
-    ],
-    contact: { phone: "1234567890", email: "contact@biryanihouse.com" }
+    product_id: "P001",
+    name: "Gaming Laptop",
+    category: "Electronics",
+    stock: 10,
+    tags: ["laptop", "gaming", "high-performance"],
+    price: 120000
   },
   {
-    name: "Curry Palace",
-    cuisine: "Indian",
-    location: "Downtown",
-    reviews: [
-      { user: "Gaurav", rating: 4, comment: "Spicy and tasty!" },
-      { user: "Harini", rating: 5, comment: "Best curry in town!" }
-    ],
-    contact: { phone: "0987654321", email: "contact@currypalace.com" }
+    product_id: "P002",
+    name: "Smartphone",
+    category: "Electronics",
+    stock: 25,
+    tags: ["smartphone", "android", "5G"],
+    price: 35000
   },
   {
-    name: "Taco Stand",
-    cuisine: "Mexican",
-    location: "Downtown",
-    reviews: [
-      { user: "Ishaan", rating: 5, comment: "Fantastic tacos!" },
-      { user: "Jaya", rating: 4, comment: "Very authentic" }
-    ],
-    contact: { phone: "1122334455", email: "contact@tacostand.com" }
+    product_id: "P003",
+    name: "T-Shirt",
+    category: "Clothing",
+    stock: null,
+    tags: ["clothing", "casual", "cotton"],
+    price: 500
+  },
+  {
+    product_id: "P004",
+    name: "Jeans",
+    category: "Clothing",
+    tags: ["clothing", "denim"],
+    price: 2000
   }
 ])
 
-// Create a unique index on the contact.email field
-db.restaurants.createIndex({ "contact.email": 1 }, { unique: true })
+// 3. Create different types of indexes
+// Unique Index on product_id
+db.Products.createIndex({ product_id: 1 }, { unique: true })
 
-// Create a sparse index on the location field
-db.restaurants.createIndex({ location: 1 }, { sparse: true })
+// Sparse Index on stock
+db.Products.createIndex({ stock: 1 }, { sparse: true })
 
-// Create a compound index on the name and location fields
-db.restaurants.createIndex({ name: 1, location: 1 })
+// Compound Index on category and name
+db.Products.createIndex({ category: 1, name: 1 })
 
-// Create a multikey index on the reviews field
-db.restaurants.createIndex({ reviews: 1 })
+// Multikey Index on tags
+db.Products.createIndex({ tags: 1 })
 
-// Verify the created indexes
-db.restaurants.getIndexes()
-
+// 4. Verify the indexes
+db.Products.getIndexes()
