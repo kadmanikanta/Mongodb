@@ -1,61 +1,41 @@
+use ProgBooksDB
 
+db.createCollection("ProgrammingBooks")
 
-//To create the new database as well as switch the database if not existing
-
-use Books
-
-//To create the collection inside the database
-
-db.createCollection("BookDetails")
-
-
-//To insert the single value or document
-db.BookDetails.insertOne({
-  _id: 1,
+// insert a new document into the ProgrammingBooks collection:
+db.ProgrammingBooks.insertOne({
   title: "The Pragmatic Programmer: Your Journey to Mastery",
   author: "David Thomas, Andrew Hunt",
   category: "Software Development",
   year: 1999
 })
 
-
-
-//To insert the multiple values or documents
-db.BookDetails.insertMany([
+db.ProgrammingBooks.insertMany([
   {
-    _id: 1,
     title: "Clean Code: A Handbook of Agile Software Craftsmanship",
     author: "Robert C. Martin",
     category: "Software Development",
     year: 2008
   },
-  
   {
-    _id: 2,
     title: "JavaScript: The Good Parts",
     author: "Douglas Crockford",
     category: "JavaScript",
     year: 2008
   },
-  
   {
-    _id: 3,
     title: "Design Patterns: Elements of Reusable Object-Oriented Software",
     author: "Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides",
     category: "Software Design",
     year: 1994
   },
-  
   {
-    _id: 4,
     title: "Introduction to Algorithms",
     author: "Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, Clifford Stein",
     category: "Algorithms",
     year: 1990
   },
-  
   {
-    _id: 5,
     title: "Python Crash Course: A Hands-On, Project-Based Introduction to Programming",
     author: "Eric Matthes",
     category: "Python",
@@ -63,9 +43,33 @@ db.BookDetails.insertMany([
   }
 ])
 
+//Find All Documents
+db.ProgrammingBooks.find().pretty()
 
-//Query Operation:
+//Find Documents Matching a Condition
+db.ProgrammingBooks.find({ year: { $gt: 2000 } }).pretty()
 
-//1. Find All Documents command…
 
-db.BookDetails.find().pretty()
+//Update a Single Document
+db.ProgrammingBooks.updateOne(
+  { title: "Clean Code: A Handbook of Agile Software Craftsmanship" },
+  { $set: { author: "Robert C. Martin (Uncle Bob)" } }
+)
+
+//verify by displaying books published in year 2008
+db.ProgrammingBooks.find({ year: { $eq: 2008 } }).pretty()
+//another way to verify
+db.ProgrammingBooks.find({ author: { $regex: "Robert*" } }).pretty()
+
+// Update Multiple Documents
+db.ProgrammingBooks.updateMany(
+  { year: { $lt: 2010 } },
+  { $set: { category: "Classic Programming Books" } }
+)
+
+//Delete a Single Document
+db.ProgrammingBooks.deleteOne({ title: "JavaScript: The Good Parts" })
+{ acknowledged: true, deletedCount: 1 }
+
+//Verify to see document is deleted
+db.ProgrammingBooks.find({ title: "JavaScript: The Good Parts" }).pretty()
