@@ -3,13 +3,14 @@
 
 
 # Import CSV data into the catalog collection
-mongoimport --db=kannadaMoviesDB --collection='catalog' --file=kan_movies.csv --type=csv --fields="name","year","duration","rating","genre","lang"
+
+Download from Datasets
 
 # Switch to the database
 use kannadaMoviesDB
 
 # Create a text index on 'name' and 'genre'
-db.catalog.createIndex({ name: "text", genre: "text" })
+db.catalog.createIndex({ Name: "text", Genre: "text" })
 
 # Perform a text search for the word "maga"
 db.catalog.find({ $text: { $search: "maga" } })

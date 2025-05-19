@@ -9,17 +9,22 @@ show collections
 db.catalog.countDocuments()
 
 
-// Create a text index on the name and description fields
-db.catalog.createIndex({ name: "text", description: "text" })
 
-// Exclude documents containing the word "action"
-db.catalog.find({ $text: { $search: "crime romance -action" }, year:2021 } )
+// to check which index are there 
+
+db.catalog.getIndexes()
+
+// Create a text index on the name and description fields
+db.catalog.createIndex({ Name: "text", Description: "text" })
+
+
+// to check which index are there 
+
+db.catalog.getIndexes()
 
 // Exclude documents containing the phrase "da maga"
-db.catalog.find({$text: {$search: "maga -"da maga""}})
+db.catalog.find({$text: {$search: "maga -\"da maga\""}})
 
-// Perform a text search query to find documents containing the phrase "maga"
-db.catalog.find({$text: {$search: ""tappida Maga""}})
 
 
 

@@ -1,6 +1,12 @@
+// Switch to the newDB database
+
 use newDB
 
+// Step 1: Create the ProgrammingBooks collection
+
 db.createCollection("ProgrammingBooks")
+
+// Step 2: Insert multiple documents into the ProgrammingBooks collection
 
 db.ProgrammingBooks.insertMany([
   { title: "Clean Code", author: "Robert C. Martin", category: "Software Development", year: 2008 },
@@ -8,29 +14,39 @@ db.ProgrammingBooks.insertMany([
   { title: "Design Patterns", author: "Erich Gamma", category: "Software Design", year: 1994 },
   { title: "Introduction to Algorithms", author: "Thomas H. Cormen", category: "Algorithms", year: 2009 },
   { title: "Python Crash Course", author: "Eric Matthes", category: "Python", year: 2015 }
-]);
+])
 
-//WHERE clause equivalent
-db.ProgrammingBooks.find({ year: 2008 }).pretty()
+// Step 3: WHERE clause equivalent - Find books published in 2008
 
 
-//Using the $and Operator
+db.ProgrammingBooks.find({ year: 2008 }).toArray()
+
+// Step 4: Using the $and Operator
+// Find books in the "Software Development" category AND published in 2008
+
+
 db.ProgrammingBooks.find({
   $and: [
     { category: "Software Development" },
     { year: 2008 }
   ]
-}).pretty()
+}).toArray()
 
-//Using the $or Operator
+// Step 5: Using the $or Operator
+// Find books in the "JavaScript" category OR published in 2015
+
+
 db.ProgrammingBooks.find({
   $or: [
     { category: "JavaScript" },
     { year: 2015 }
   ]
-}).pretty()
+}).toArray()
 
-//Combining $and and $or Operators
+// Step 6: Combining $and and $or Operators
+// Find books that are either (in 'Software Development' AND published after 2007) OR in 'Python' category
+
+
 db.ProgrammingBooks.find({
   $or: [
     {
@@ -41,5 +57,4 @@ db.ProgrammingBooks.find({
     },
     { category: "Python" }
   ]
-}).pretty()
-
+}).toArray()

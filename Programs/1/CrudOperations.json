@@ -1,8 +1,10 @@
+// Switch to the ProgBooksDB database
 use ProgBooksDB
 
+// Step 1: Create the ProgrammingBooks collection
 db.createCollection("ProgrammingBooks")
 
-// insert a new document into the ProgrammingBooks collection:
+// Step 2: Insert a single document into the ProgrammingBooks collection
 db.ProgrammingBooks.insertOne({
   title: "The Pragmatic Programmer: Your Journey to Mastery",
   author: "David Thomas, Andrew Hunt",
@@ -10,6 +12,7 @@ db.ProgrammingBooks.insertOne({
   year: 1999
 })
 
+// Step 3: Insert multiple documents into the ProgrammingBooks collection
 db.ProgrammingBooks.insertMany([
   {
     title: "Clean Code: A Handbook of Agile Software Craftsmanship",
@@ -43,33 +46,45 @@ db.ProgrammingBooks.insertMany([
   }
 ])
 
-//Find All Documents
-db.ProgrammingBooks.find().pretty()
+// Step 4: Find all documents in the collection
+print("All Programming Books:")
+db.ProgrammingBooks.find().toArray()
 
-//Find Documents Matching a Condition
-db.ProgrammingBooks.find({ year: { $gt: 2000 } }).pretty()
+// Step 5: Find documents published after the year 2000
+print("Books published after 2000:")
+db.ProgrammingBooks.find({ year: { $gt: 2000 } }).toArray()
 
-
-//Update a Single Document
+// Step 6: Update a single document
+// Update the author of "Clean Code" to include a nickname
 db.ProgrammingBooks.updateOne(
   { title: "Clean Code: A Handbook of Agile Software Craftsmanship" },
   { $set: { author: "Robert C. Martin (Uncle Bob)" } }
 )
 
-//verify by displaying books published in year 2008
-db.ProgrammingBooks.find({ year: { $eq: 2008 } }).pretty()
-//another way to verify
-db.ProgrammingBooks.find({ author: { $regex: "Robert*" } }).pretty()
+// Step 7: Verify the update
+// Method 1: Display books published in 2008
+print("Books published in 2008 (to verify the update):")
+db.ProgrammingBooks.find({ year: { $eq: 2008 } }).toArray()
 
-// Update Multiple Documents
+// Method 2: Display books with author matching "Robert*"
+print("Books with author matching 'Robert*' (to verify the update):")
+db.ProgrammingBooks.find({ author: { $regex: "Robert.*" } }).toArray()
+
+// Step 8: Update multiple documents
+// Set category to "Classic Programming Books" for books published before 2010
 db.ProgrammingBooks.updateMany(
   { year: { $lt: 2010 } },
   { $set: { category: "Classic Programming Books" } }
 )
 
-//Delete a Single Document
-db.ProgrammingBooks.deleteOne({ title: "JavaScript: The Good Parts" })
-{ acknowledged: true, deletedCount: 1 }
+// Step 9: Verify the update for books before 2010
+print("Books published before 2010 (to verify category update):")
+db.ProgrammingBooks.find({ year: { $lt: 2010 } }).toArray()
 
-//Verify to see document is deleted
-db.ProgrammingBooks.find({ title: "JavaScript: The Good Parts" }).pretty()
+// Step 10: Delete a single document
+// Delete the book "JavaScript: The Good Parts"
+db.ProgrammingBooks.deleteOne({ title: "JavaScript: The Good Parts" })
+
+// Step 11: Verify the deletion
+print("Check if 'JavaScript: The Good Parts' is deleted (should return empty):")
+db.ProgrammingBooks.find({ title: "JavaScript: The Good Parts" }).toArray()
